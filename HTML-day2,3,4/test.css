@@ -1,0 +1,14 @@
+body
+{
+background-color: darkorchid;
+}
+h1,h2,h3{
+    color: rgb(224, 21, 129);
+    text-align: right;
+}
+
+p{
+    color: rgb(114, 78, 10);
+    font-size:30px;
+    text-align: center;
+}

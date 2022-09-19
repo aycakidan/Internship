@@ -1,0 +1,67 @@
+body { 
+    background-color: rgb(225, 193, 145);
+    background-image: url("bgpattern.jpg");
+
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 40px;
+}
+
+h1 {
+    color: rgb(115, 30, 111);
+    text-align: center;
+}
+
+div.whybootstrap {
+    background-color: black;
+    padding:20px
+  
+}
+
+div.whybootstrap>h2 {
+    color: rgb(147, 191, 222);
+    font-style: italic;
+}
+
+div.whybootstrap > ol li {
+    color: white;
+    text-transform: capitalize;
+    background-color: #0000009e;
+}
+p.paragraph{
+    text-indent: 50px;
+    text-align:justify ;
+}
+h3 {
+    color: white;
+    text-align: center;
+    background-color: palevioletred;
+}
+
+span.specialText{
+    text-transform: capitalize;
+}
+
+div.reasons,table{
+    background-color: turquoise;    
+    border-color: rgb(229, 22, 22);
+    border-spacing: 1px;
+    border-collapse: separate;
+    margin:0 auto;
+}
+
+div.reasons > th,td{
+    padding: 1px;
+}
+
+div.h3 > h3{
+    border-radius: 20px;
+    padding: 10px;
+    font-size:;
+}
+
+   
