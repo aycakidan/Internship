@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
+
+  <title>Hello, world!</title>
+</head>
+
+<body>
+  <!-- row id her bir data için clm md4 altına card ekle-append -->
+  <div class="container">
+    <div class="row " id="result">
+
+      <!-- Optional JavaScript -->
+      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <script src="./jquery-3.6.0.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
+      <script>
+        $(function () {
+
+          $.ajax({
+            url: "https://random-data-api.com/api/computer/random_computer?size=20",
+            method: "GET",
+            async: false,
+            success: function (arr) {
+
+              $.each(arr, (i, obj) => {
+                var colString = `  
+        <div class="col-md-3 mt-3" >
+          <div class="card">
+          <img class="card-img-top"
+          src="https://www.isteknoloji.com.tr/img/loading.png"
+          alt="Card image cap">
+          <div class="card-body">
+          <h5 class="id">ID:${obj.id} </h5>
+          <p class="uid">uid:${obj.uid}</p>
+          <p class="platform">platform:${obj.platform}</p>
+          <p class="type">type:${obj.type}</p>
+          <p class="os">os:${obj.os}</p>
+          <p class="stack">stack:${obj.stack}</p>
+
+        </div>
+      </div> 
+  `;
+                $("#result").append(colString);
+
+
+
+
+
+
+
+
+              })
+            }
+          })
+        });
+
+
+
+
+      </script>
+</body>
+
+</html>

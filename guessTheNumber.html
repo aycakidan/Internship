@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
+
+    <title>Guess The Number</title>
+    <style>
+        form {
+            background-color: rgba(126, 94, 181, 0.715);
+            height: 100px;
+            width: 350px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 200px;
+        }
+        body{
+            background-color: rgba(88, 36, 137, 0.347);
+            background-image: url("https://upload.wikimedia.org/wikipedia/commons/e/e0/Question-mark-blackandwhite.png");
+            background-repeat: no-repeat;            
+        }
+        #userNumberLBL{
+            text-align: right;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container pt-5">
+        <div class="modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Congratulations!</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>You guessed right!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" id="btnClose"
+                            data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form autocomplete="off">
+            <label for="userNumber" id="userNumberLBL"> &nbsp; <strong>enter a number:</strong> </label> <br>
+            &nbsp; <input type="number" id="userNumber">
+            <button type="button" id="btnGuess">Guess</button>
+            <label id="feedback"></label>
+        </form>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="./jquery-3.6.0.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
+    <script>
+
+        var random = Math.floor(Math.random() * 50);
+        console.log(random)
+        var difference = 0;
+        var count = 0;
+
+        $(function () {
+
+            $("#btnClose").on("click", () => {
+                $(".modal").hide();
+                window.location.reload();
+            });
+
+            $("#btnGuess").on("click", () => {
+                var guess = $("#userNumber").val();
+                console.log("Guess: " + guess);
+
+                if (guess == random) {
+                    $(".modal").show();
+                } else if (guess < random) {
+                    difference = random - guess;
+                } else if (guess > random) {
+                    difference = guess - random;
+                }
+                console.log("Difference: " + difference);
+
+                if (difference >= 1 && difference <= 10) {
+                    $("#feedback").text("On fire!");
+                } else if (difference > 10 && difference <= 20) {
+                    $("#feedback").text("Hotter!");
+                } else if (difference > 20 && difference <= 30) {
+                    $("#feedback").text("Hot");
+                } else if (difference > 30 && difference <= 40) {
+                    $("#feedback").text("Warm");
+                } else if (difference > 40 && difference <= 50) {
+                    $("#feedback").text("Cold");
+                } else if (difference > 50) {
+                    $("#feedback").text("Freezing");
+                }
+
+            });
+
+        
+        });
+    </script>
+</body>
+
+</html>

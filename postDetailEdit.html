@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
+
+    <title>edit postDetail</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="modal" id="myModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+
+                        </div>
+                        <div class="modal-footer">
+
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">id</th>
+                        <th scope="col ">user id</th>
+                        <th scope="col">title</th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="./jquery-3.6.0.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
+    <script>
+        function getAll() {
+            $.ajax({
+                url: "https://jsonplaceholder.typicode.com/posts",
+                methot: "GET",
+                async: false,
+                success: (data) => {
+                    $.each(data, (i, obj) => {
+                        var todayTable = `
+                        <tr postid="${obj.id}", userid="${obj.userId}">
+                <td>${obj.id}</td>0
+                <td>${obj.userId}</td>
+                <td>${obj.title}</td>
+
+                <td>
+                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                    <button type="button" class="btnDetail btn btn-outline-dark">Post Detail</button>
+                    <button type="button" class="btnInfo btn btn-outline-dark">User Info</button>
+                    <button type="button" class="btnComments btn btn-outline-dark">Post Comments</button>
+                    <button type="button" class="btnEdit btn btn-outline-dark">Edit</button>
+
+                
+                </div>
+                </td>
+              </tr>`;
+
+                        $("tbody").append(todayTable)
+                    });
+                }
+            });
+        };
+
+        function getPostDetail(e) {
+            console.log(e.currentTarget);
+            var postid = $(e.currentTarget).closest("tr").attr("postid");
+            getDetail(postid);
+
+        }
+        function getDetail(id) {
+            console.log(id);
+
+            $.ajax({
+                url: "https://jsonplaceholder.typicode.com/posts/" + id,
+                method: "GET",
+                async: false,
+                success: (data) => {
+                    $(".modal-body").text(data.body);
+                    $(".modal-title").text(data.title);
+                    $("#myModal").modal('show');
+
+                }
+            })
+        }
+        function getUserDetail(e) {
+            console.log(e.currentTarget);
+            var userId = $(e.currentTarget).closest("tr").attr("userid");
+            userDetail(userId);
+        }
+        function userDetail(userid) {
+            console.log(userid);
+
+            $.ajax({
+                url: "https://jsonplaceholder.typicode.com/users/" + userid,
+                method: "GET",
+                async: false,
+                success: (data) => {
+                    $(".modal-body").text(`${data.username},
+                    ${data.email},
+                    ${data.address.street},
+                    ${data.address.suite},
+                    ${data.address.city},
+                    ${data.address.zipcode},`);
+                    $(".modal-title").text(data.name);
+                    $("#myModal").modal('show');
+
+                }
+            });
+        }
+
+        function getPostComments(e) {
+            console.log(e.currentTarget);
+            var postCom = $(e.currentTarget).closest("tr").attr("postid");
+            postComments(postCom);
+
+        }
+
+        function postComments(postid) {
+            console.log(postid);
+            $.ajax({
+                url: "https://jsonplaceholder.typicode.com/posts/" + postid + "/comments",
+                method: "GET",
+                async: false,
+                success: (data) => {
+                    console.log(data);
+                    $(".modal-title").text("comments #" + postid);
+                    var ulString = "<ul>";
+                    $.each(data, (i, obj) => {
+                        ulString += "<li>" + obj.body + "</li>";
+                    });
+                    ulString += "</ul>";
+                    $(".modal-body").html(ulString);
+
+                    $("#myModal").modal('show');
+
+                }
+            });
+
+        };
+
+        function getEdit(postid) {
+            console.log(postid);
+            $.ajax({
+                url: "https://jsonplaceholder.typicode.com/posts/" + postid,
+                method: "GET",
+                async: false,
+                success: (data) => {
+                    $.each(data, () => {
+                        var inputModal = `
+                    <input type="text" value="${data.id}"> <br><br>
+                    <input type="text" value="${data.userId}"> <br><br>
+                    <input type="text" value="${data.title}"> <br><br>
+                    <input type="text" value="${data.body} ">           
+                                       
+                    `;
+                        $(".modal-body").html(inputModal);
+                        $("#myModal").modal('show');
+                    });
+                }
+            });
+        }
+        function edit(e) {
+            console.log(e.currentTarget);
+            var editInput = $(e.currentTarget).closest("tr").attr("postid");
+            getEdit(editInput);
+
+        }
+
+
+
+
+        $(() => {
+            getAll();
+            $(".btnDetail").on("click", (e) => {
+                getPostDetail(e);
+            });
+            $(".btnInfo").on("click", (e) => {
+                getUserDetail(e);
+            });
+            $(".btnComments").on("click", (e) => {
+                getPostComments(e);
+            });
+            $(".btnEdit").on("click", (e) => {
+                edit(e);
+            });
+        })
+    </script>
+</body>
+
+</html>
